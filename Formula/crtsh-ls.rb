@@ -1,4 +1,4 @@
-class Crtshls < Formula
+class CrtshLs < Formula
   desc "query the crt.sh certificate transparency log from the CLI."
   homepage "https://github.com/koshatul/crtsh-ls"
 

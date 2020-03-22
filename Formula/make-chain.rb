@@ -1,4 +1,4 @@
-class Makechain < Formula
+class MakeChain < Formula
   desc "create a full SSL chain from a certificate and a repository of root certificates."
   homepage "https://github.com/koshatul/ssl-make-chain"
 
