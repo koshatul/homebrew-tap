@@ -1,0 +1,29 @@
+language: c
+os: linux
+compiler: gcc
+
+before_install:
+  - sudo apt-get install -qy git curl build-essential locales
+  - sudo locale-gen en_US.UTF.8
+  - HOMEBREW_REPOSITORY="$HOME/Homebrew"
+  - export PATH="$HOMEBREW_REPOSITORY/bin:$PATH"
+  - export HOMEBREW_FORCE_HOMEBREW_ORG=1
+  - export HOMEBREW_BOTTLE_DOMAIN=https://homebrew.bintray.com
+  # umask 022 fixes Linux `brew tests` failures
+  - umask 022
+  - chmod 644 Formula/*.rb
+  - rm -rf $HOMEBREW_REPOSITORY
+  - travis_retry git clone --depth=1 https://github.com/Homebrew/brew "$HOMEBREW_REPOSITORY"
+  - HOMEBREW_TAP_DIR="$(brew --repo "koshatul/tools")"
+  - mkdir -p "$HOMEBREW_TAP_DIR"
+  - rm -rf "$HOMEBREW_TAP_DIR"
+  - ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+  # trigger vendored ruby installation
+  - brew help
+
+script:
+  - brew info koshatul/tools/crtsh-ls
+  - brew info koshatul/tools/make-chain
+  - brew audit --strict --online koshatul/tools/crtsh-ls
+  - brew audit --strict --online koshatul/tools/make-chain
+  - ./brew-audit.sh
